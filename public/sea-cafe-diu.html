@@ -38,6 +38,76 @@
       --transition:   0.35s cubic-bezier(0.4,0,0.2,1);
     }
 
+    /* ══════════════════════════════════════════════════
+       LOADING SPLASH SCREEN
+    ══════════════════════════════════════════════════ */
+    #loader {
+      position:fixed; inset:0; z-index:99999;
+      background:linear-gradient(160deg, #0a4f6e 0%, #1a1a2e 50%, #0d3b50 100%);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      transition:opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+
+    .loader-logo {
+      text-align:center; animation:loaderFadeIn 0.8s ease both;
+    }
+    .loader-logo-icon {
+      width:80px; height:80px; border-radius:50%;
+      background:linear-gradient(135deg, var(--sunset), var(--coral));
+      display:flex; align-items:center; justify-content:center;
+      margin:0 auto 24px; font-size:2rem; color:#fff;
+      box-shadow:0 8px 40px rgba(224,123,57,0.4);
+      animation:loaderPulse 1.5s ease-in-out infinite;
+    }
+    .loader-logo-name {
+      font-family:var(--font-display); font-size:clamp(2.2rem,5vw,3.2rem);
+      font-weight:700; color:#fff; line-height:1.1;
+      animation:loaderTextReveal 1s 0.3s ease both;
+    }
+    .loader-logo-name em { font-style:italic; color:var(--sunset-warm); }
+    .loader-logo-sub {
+      font-size:0.75rem; letter-spacing:0.25em; text-transform:uppercase;
+      color:rgba(255,255,255,0.5); margin-top:8px;
+      animation:loaderTextReveal 1s 0.5s ease both;
+    }
+
+    /* Wave animation at bottom of loader */
+    .loader-waves {
+      position:absolute; bottom:0; left:0; right:0; height:80px; overflow:hidden;
+      animation:loaderTextReveal 1s 0.7s ease both;
+    }
+    .loader-waves svg { position:absolute; bottom:0; width:200%; }
+    .loader-wave1 { animation:loaderWave 6s linear infinite; }
+    .loader-wave2 { animation:loaderWave 8s linear infinite reverse; opacity:0.5; }
+
+    /* Spinner */
+    .loader-spinner {
+      margin-top:40px;
+      animation:loaderTextReveal 1s 0.6s ease both;
+    }
+    .loader-spinner-ring {
+      width:44px; height:44px; border-radius:50%;
+      border:3px solid rgba(255,255,255,0.12);
+      border-top-color:var(--sunset-warm);
+      animation:loaderSpin 0.8s linear infinite;
+    }
+    .loader-spinner-text {
+      margin-top:14px; font-size:0.72rem; letter-spacing:0.2em;
+      text-transform:uppercase; color:rgba(255,255,255,0.4);
+    }
+
+    @keyframes loaderFadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes loaderTextReveal { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes loaderPulse { 0%,100% { transform:scale(1); box-shadow:0 8px 40px rgba(224,123,57,0.4); } 50% { transform:scale(1.08); box-shadow:0 12px 50px rgba(224,123,57,0.6); } }
+    @keyframes loaderSpin { to { transform:rotate(360deg); } }
+    @keyframes loaderWave { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+
+    @media (max-width:480px) {
+      .loader-logo-icon { width:60px; height:60px; font-size:1.5rem; }
+      .loader-logo-name { font-size:1.8rem; }
+    }
+
     /* ─── Reset ──────────────────────────────────────── */
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior: smooth; }
@@ -612,6 +682,27 @@
   </style>
 </head>
 <body>
+
+<!-- ─── LOADING SPLASH ────────────────────────────────── -->
+<div id="loader">
+  <div class="loader-logo">
+    <div class="loader-logo-icon"><i class="fas fa-anchor"></i></div>
+    <div class="loader-logo-name">Sea Cafe &amp;<br><em>Food Destination</em></div>
+    <div class="loader-logo-sub">Diu</div>
+  </div>
+  <div class="loader-spinner">
+    <div class="loader-spinner-ring"></div>
+    <div class="loader-spinner-text">Loading</div>
+  </div>
+  <div class="loader-waves">
+    <svg class="loader-wave1" viewBox="0 0 2880 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="rgba(255,255,255,0.06)" d="M0,40 C240,70 480,10 720,40 C960,70 1200,10 1440,40 C1680,70 1920,10 2160,40 C2400,70 2640,10 2880,40 L2880,80 L0,80 Z"/>
+    </svg>
+    <svg class="loader-wave2" viewBox="0 0 2880 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="rgba(255,255,255,0.04)" d="M0,50 C240,20 480,60 720,30 C960,60 1200,20 1440,50 C1680,20 1920,60 2160,30 C2400,60 2640,20 2880,50 L2880,80 L0,80 Z"/>
+    </svg>
+  </div>
+</div>
 
 <!-- ─── NAVBAR ────────────────────────────────────────── -->
 <nav id="navbar">
@@ -1335,6 +1426,16 @@
 
 <!-- ─── SCRIPTS ───────────────────────────────────────────── -->
 <script>
+  /* ── Loading splash screen ── */
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      const loader = document.getElementById('loader');
+      loader.classList.add('hidden');
+      // Remove from DOM after transition
+      setTimeout(function() { loader.remove(); }, 700);
+    }, 1800);
+  });
+
   /* ── Navbar scroll ── */
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
