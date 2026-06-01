@@ -12,7 +12,7 @@ export default function Home() {
         padding: 0,
         display: 'block',
       }}
-      title="Kankeshwari - The Indian Cuisine Restaurant, Diu"
+      title="Bavarchi - The Indian Cuisine Restaurant, Diu"
     />
   )
 }
