@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -8,20 +8,15 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "Kankeshwar - The Indian Culture Restaurant | Diu",
-  description:
-    "Experience authentic Indian cuisine at Kankeshwar, The Indian Culture Restaurant in Diu. Order online from our diverse menu featuring Chinese, Paneer, Tandoor, Thalis and more.",
-  keywords: [
-    "Kankeshwar",
-    "Indian Restaurant",
-    "Diu",
-    "Indian Culture",
-    "Vegetarian Food",
-    "Thali",
-    "Tandoor",
-    "Paneer",
-  ],
+  title: "Kankeshwari - The Indian Cuisine Restaurant | Diu",
+  description: "Kankeshwari - The Indian Cuisine Restaurant, Diu. Experience authentic Indian vegetarian cuisine with Chinese, Paneer, Tandoor, Thalis and more.",
+  keywords: ["Kankeshwari", "Indian Restaurant", "Diu", "Indian Cuisine", "Vegetarian Food"],
   icons: {
     icon: "/favicon.ico",
   },
@@ -34,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} antialiased bg-background text-foreground`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}>
         {children}
         <Toaster />
       </body>

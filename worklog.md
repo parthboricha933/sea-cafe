@@ -1,28 +1,26 @@
 ---
-Task ID: 1
+Task ID: restore
 Agent: Main Agent
-Task: Build Kankeshwar restaurant website with menu, cart, and WhatsApp ordering
+Task: Restore original Sea Cafe website and only change name to Kankeshwari
 
 Work Log:
-- Initialized fullstack development environment
-- Created menu data structure with all 8 categories (Chinese, Paneer, Sweet, Vegetable's, Dal & Rice, Tandoor, Fix Meal, Dessert)
-- Created Zustand cart store with add/remove/update/clear functionality
-- Updated globals.css with Indian restaurant theme colors (saffron, gold, maroon, cream)
-- Built main page.tsx with Hero section, category tabs, menu item cards, cart drawer, WhatsApp ordering
-- Generated restaurant logo and background images
-- Updated layout.tsx with proper restaurant metadata
-- Verified lint passes with no errors
-- Verified dev server compiles successfully (GET / 200)
+- Copied original sea-cafe-diu.html from upload/ to public/
+- Replaced all "Sea Cafe & Food Destination" → "Kankeshwari - The Indian Cuisine Restaurant"
+- Replaced all "Sea Cafe" → "Kankeshwari"
+- Replaced "Food Destination · Diu" → "The Indian Cuisine Restaurant · Diu"
+- Fixed hero title to show "Kankeshwari / The Indian Cuisine Restaurant"
+- Updated WhatsApp number to 917574033599
+- Added loading splash screen with Kankeshwari branding
+- Restored page.tsx to iframe approach (original way)
+- Restored globals.css to original theme
+- Restored layout.tsx with proper metadata
+- Removed unnecessary files (menu-data.ts, cart-store.ts)
+- Verified no lint errors
+- Verified dev server compiles successfully
 
 Stage Summary:
-- Fully functional restaurant website at /
-- Menu with 8 categories and all items from the provided menu
-- Cart functionality: add items, adjust quantities, remove items, clear cart
-- WhatsApp ordering: generates formatted message with order details and opens WhatsApp to 917574033599
-- Beautiful Indian-themed design with saffron/gold/maroon colors
-- Responsive design with mobile-first approach
-- Sticky category tabs with smooth scrolling
-- Floating cart button with item count badge
-- Scroll-to-top button
-- Restaurant hero section with background image
-- Footer with contact info and WhatsApp link
+- Website is now exactly the same as the original Sea Cafe design
+- Only the name changed to "Kankeshwari: The Indian Cuisine Restaurant"
+- WhatsApp number updated to 07574033599
+- Loading splash screen added back
+- All original features preserved: navbar, hero, about, specialties, menu modal, gallery, reservation, contact, footer, WhatsApp button, scroll-to-top
