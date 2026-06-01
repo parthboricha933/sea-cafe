@@ -1501,10 +1501,119 @@
 
   /* ── Menu modal ── */
   const menuModal = document.getElementById('menuModal');
+  var menuDataLoaded = false;
+  var menuDataLoading = false;
+
+  function renderMenuFromAPI(categories) {
+    // Render category nav
+    var navInner = menuModal.querySelector('.menu-nav-inner');
+    var navHtml = '';
+    for (var i = 0; i < categories.length; i++) {
+      var cat = categories[i];
+      navHtml += '<a class="menu-nav-link" onclick="menuScrollTo(\'' + cat.slug + '\')">' + cat.icon + ' ' + cat.name + '</a>';
+    }
+    navInner.innerHTML = navHtml;
+
+    // Render menu body
+    var menuBody = menuModal.querySelector('.menu-body');
+    var bodyHtml = '';
+    for (var i = 0; i < categories.length; i++) {
+      var cat = categories[i];
+      bodyHtml += '<div class="menu-section" id="' + cat.slug + '">';
+      bodyHtml += '<h2 class="menu-cat-title"><span class="icon">' + cat.icon + '</span> ' + cat.name + '</h2>';
+      bodyHtml += '<div class="menu-grid">';
+      for (var j = 0; j < cat.items.length; j++) {
+        var item = cat.items[j];
+        if (!item.isAvailable) continue; // Skip unavailable items
+        var badgeHtml = '';
+        if (item.badge) {
+          var badgeClass = item.badge;
+          var badgeLabel = item.badge.split('-').map(function(w){return w.charAt(0).toUpperCase()+w.slice(1)}).join(' ');
+          badgeHtml = ' <span class="badge ' + badgeClass + '">' + badgeLabel + '</span>';
+        }
+        var variantHtml = '';
+        if (item.variantTag) {
+          variantHtml = ' <span class="variant-tag">' + item.variantTag + '</span>';
+        }
+        if (item.description) {
+          // Fix Meal style: detailed layout
+          bodyHtml += '<div class="menu-item" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px 12px;">';
+          bodyHtml += '<div style="display:flex;justify-content:space-between;width:100%;align-items:center">';
+          bodyHtml += '<span class="item-name" style="font-weight:700;">' + item.name + badgeHtml + '</span>';
+          bodyHtml += '<div style="display:flex;align-items:center;gap:10px">';
+          bodyHtml += '<span class="item-price">₹' + item.price + '</span>';
+          bodyHtml += '<div class="item-actions" data-key="' + item.name + '||' + item.price + '"><button class="add-btn" data-key="' + item.name + '||' + item.price + '" data-name="' + item.name.replace(/"/g,'&quot;') + '" data-price="' + item.price + '" onclick="addToCart(this)">ADD</button></div>';
+          bodyHtml += '</div></div>';
+          bodyHtml += '<div class="variant-tags"><span class="variant-tag">' + item.description + '</span></div>';
+          bodyHtml += '</div>';
+        } else {
+          bodyHtml += '<div class="menu-item">';
+          bodyHtml += '<span class="item-name">' + item.name + badgeHtml + variantHtml + '</span>';
+          bodyHtml += '<span class="item-price">₹' + item.price + '</span>';
+          bodyHtml += '</div>';
+        }
+      }
+      bodyHtml += '</div></div>';
+    }
+    menuBody.innerHTML = bodyHtml;
+
+    // Re-initialize cart buttons for the new items
+    initCartButtons();
+
+    // Re-attach scroll highlighting
+    attachMenuScrollHighlight();
+  }
+
+  function attachMenuScrollHighlight() {
+    var menuBox = menuModal.querySelector('.menu-modal-box');
+    // Remove old scroll listener by cloning
+    var newMenuBox = menuBox.cloneNode(true);
+    menuBox.parentNode.replaceChild(newMenuBox, menuBox);
+    menuBox = newMenuBox;
+    // Re-attach close on click outside
+    menuModal.addEventListener('click', function(e) {
+      if (e.target === menuModal) closeMenuModal();
+    });
+    menuBox.addEventListener('scroll', function() {
+      var menuSections = menuModal.querySelectorAll('.menu-section');
+      var menuNavLinks = menuModal.querySelectorAll('.menu-nav-link');
+      var current = '';
+      menuSections.forEach(function(sec) {
+        var top = sec.offsetTop - menuBox.offsetTop - 120;
+        if (menuBox.scrollTop >= top) current = sec.getAttribute('id');
+      });
+      menuNavLinks.forEach(function(link) {
+        link.classList.remove('active');
+        var onclick = link.getAttribute('onclick') || '';
+        if (onclick.includes(current)) {
+          link.classList.add('active');
+        }
+      });
+    });
+  }
+
   function openMenuModal() {
     menuModal.classList.add('open');
     document.body.style.overflow = 'hidden';
     menuModal.scrollTop = 0;
+    // Fetch menu from API if not already loaded
+    if (!menuDataLoaded && !menuDataLoading) {
+      menuDataLoading = true;
+      fetch('/api/menu')
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data && data.length > 0) {
+            renderMenuFromAPI(data);
+            menuDataLoaded = true;
+          }
+          menuDataLoading = false;
+        })
+        .catch(function(err) {
+          console.warn('Failed to fetch menu from API, using fallback:', err);
+          menuDataLoading = false;
+          // Fallback: the hardcoded HTML is already in the page
+        });
+    }
   }
   function closeMenuModal() {
     menuModal.classList.remove('open');
@@ -1520,24 +1629,24 @@
   });
   // Scroll to category inside modal
   function menuScrollTo(id) {
-    const el = document.getElementById(id);
+    var el = document.getElementById(id);
     if (el) {
-      const box = menuModal.querySelector('.menu-modal-box');
-      const offset = el.offsetTop - box.offsetTop - 120;
+      var box = menuModal.querySelector('.menu-modal-box');
+      var offset = el.offsetTop - box.offsetTop - 120;
       box.scrollTo({ top: offset, behavior: 'smooth' });
     }
   }
   // Highlight active category nav on scroll inside modal
-  const menuSections = menuModal.querySelectorAll('.menu-section');
-  const menuNavLinks = menuModal.querySelectorAll('.menu-nav-link');
-  const menuBox = menuModal.querySelector('.menu-modal-box');
-  menuBox.addEventListener('scroll', () => {
-    let current = '';
-    menuSections.forEach(sec => {
-      const top = sec.offsetTop - menuBox.offsetTop - 120;
+  var menuSections = menuModal.querySelectorAll('.menu-section');
+  var menuNavLinks = menuModal.querySelectorAll('.menu-nav-link');
+  var menuBox = menuModal.querySelector('.menu-modal-box');
+  menuBox.addEventListener('scroll', function() {
+    var current = '';
+    menuSections.forEach(function(sec) {
+      var top = sec.offsetTop - menuBox.offsetTop - 120;
       if (menuBox.scrollTop >= top) current = sec.getAttribute('id');
     });
-    menuNavLinks.forEach(link => {
+    menuNavLinks.forEach(function(link) {
       link.classList.remove('active');
       if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(current)) {
         link.classList.add('active');
