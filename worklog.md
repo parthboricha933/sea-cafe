@@ -24,3 +24,30 @@ Stage Summary:
 - Admin Panel: Full-featured React dashboard at /admin route
 - Frontend: Dynamic menu loading from API with hardcoded fallback
 - Auth: Token-based with SHA256 password hashing, 24h token expiry
+---
+Task ID: admin-panel-fix
+Agent: Main Agent
+Task: Fix admin panel visibility and set up Neon PostgreSQL database for Vercel deployment
+
+Work Log:
+- Found project at /home/z/my-project with existing admin panel code and API routes
+- Identified that SQLite database doesn't work on Vercel (no persistent filesystem)
+- Switched Prisma datasource from SQLite to PostgreSQL
+- User provided Neon PostgreSQL connection string
+- Updated .env with Neon connection strings
+- Pushed Prisma schema to Neon PostgreSQL (force reset)
+- Seeded database with 8 categories, 74 items, and admin user (admin/bavarchi2025)
+- Updated frontend HTML to preload menu from API on page load
+- Added admin link to website footer
+- Removed .env from git tracking (security)
+- Set up Vercel env vars (DATABASE_URL, DIRECT_URL) for production, preview, and development
+- Deployed to Vercel successfully
+- Tested all APIs on Vercel: menu fetch, admin login, admin verify, item CRUD
+
+Stage Summary:
+- Admin panel is now accessible at https://sea-cafe.vercel.app/admin
+- Login credentials: username=admin, password=bavarchi2025
+- Menu data is now served from Neon PostgreSQL database
+- Frontend HTML preloads menu from API and falls back to hardcoded HTML
+- All CRUD operations (add/edit/delete categories and items) work on Vercel
+- Admin can change prices, add items, manage categories through the admin panel
