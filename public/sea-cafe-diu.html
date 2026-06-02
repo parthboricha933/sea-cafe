@@ -202,10 +202,23 @@
     }
     .hero-bg {
       position:absolute; inset:0;
-      background:
-        linear-gradient(160deg, rgba(10,79,110,0.72) 0%, rgba(26,26,46,0.55) 50%, rgba(224,123,57,0.35) 100%),
-        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=80') center/cover no-repeat;
       transform:scale(1.03);
+    }
+    .hero-slide {
+      position:absolute; inset:0;
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      opacity:0;
+      transition:opacity 1.5s ease-in-out;
+    }
+    .hero-slide::after {
+      content:'';
+      position:absolute; inset:0;
+      background:linear-gradient(160deg, rgba(10,79,110,0.72) 0%, rgba(26,26,46,0.55) 50%, rgba(224,123,57,0.35) 100%);
+    }
+    .hero-slide.active {
+      opacity:1;
       animation:heroZoom 18s ease-in-out infinite alternate;
     }
     @keyframes heroZoom { from { transform:scale(1.03); } to { transform:scale(1.08); } }
@@ -878,7 +891,13 @@
 
 <!-- ─── HERO ──────────────────────────────────────────── -->
 <section id="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-bg">
+    <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('hero-slide-1.png')"></div>
+    <div class="hero-slide" style="background-image:url('hero-slide-2.png')"></div>
+    <div class="hero-slide" style="background-image:url('hero-slide-3.png')"></div>
+    <div class="hero-slide" style="background-image:url('hero-slide-4.png')"></div>
+  </div>
   <div class="hero-content">
     <div class="hero-badge"><span class="veg-symbol white" style="width:16px;height:16px;"></span> 100% Pure Vegetarian</div>
     <h1 class="hero-title">Bavarchi<br><em>The Indian Cuisine Restaurant</em></h1>
@@ -1595,6 +1614,17 @@
       }
     }, 1800);
   });
+
+  /* ── Hero Slideshow ── */
+  (function() {
+    const slides = document.querySelectorAll('.hero-slide');
+    let current = 0;
+    setInterval(function() {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 5000);
+  })();
 
   /* ── Navbar scroll ── */
   const navbar = document.getElementById('navbar');
