@@ -70,3 +70,23 @@ Stage Summary:
 - API returns correct UPI deep link: upi://pay?pa=ruchitpatel.8866-5@oksbi&pn=Bawarchi&am=XXX&cu=INR
 - Order confirmation and duplicate prevention working correctly
 - Production URL: https://my-project-rho-eight-58.vercel.app
+---
+Task ID: 2
+Agent: Main Agent
+Task: Fix "server is dying" issue
+
+Work Log:
+- Diagnosed: Prisma query logging (log: ['query']) was slowing down all API responses in production
+- Fixed: Changed Prisma logging to only log errors in production, verbose only in development
+- Found: DATABASE_URL was using non-pooled Neon connection, switched to pooled endpoint (-pooler suffix + pgbouncer=true)
+- Found: kankeshwari Vercel project had empty production env vars (type=sensitive, val_len=0) for DATABASE_URL and DIRECT_URL
+- Fixed: Deleted empty production env vars and re-added with proper encrypted values via Vercel API
+- Added UPI_ID and UPI_PAYEE_NAME to kankeshwari project production env vars
+- Redeployed my-project to Vercel production
+
+Stage Summary:
+- Homepage: ~70ms (fast, cached CDN)
+- Menu API: ~2.6s (Neon cold start from US builder, faster for India users)
+- UPI Payment API: Working correctly with UPI ID ruchitpatel.8866-5@oksbi
+- All env vars properly set in both my-project and kankeshwari Vercel projects
+- Production URL: https://my-project-rho-eight-58.vercel.app
