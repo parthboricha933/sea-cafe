@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-// Validate required environment variables at startup
+// Get UPI configuration with safe fallbacks
 function getUpiConfig() {
-  const upiId = process.env.UPI_ID;
+  const upiId = process.env.UPI_ID || "ruchitpatel.8866-5@oksbi";
   const upiPayeeName = process.env.UPI_PAYEE_NAME || "Bawarchi";
-  if (!upiId) {
-    throw new Error("UPI_ID environment variable is not set");
-  }
   return { upiId, upiPayeeName };
 }
 
