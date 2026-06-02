@@ -601,6 +601,30 @@
 
 
     /* ══════════════════════════════════════════════════
+       PARTY & EVENT HALL
+    ══════════════════════════════════════════════════ */
+    #party-hall { padding:100px 0; background:var(--off-white); }
+    .party-grid { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; }
+    .party-content .section-subtitle { max-width:100%; }
+    .party-features { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:28px; }
+    .party-feature { display:flex; align-items:center; gap:10px; font-size:0.88rem; font-weight:500; color:var(--text); }
+    .party-feature i { color:var(--sunset); font-size:1rem; width:20px; text-align:center; }
+    .party-cta { display:flex; gap:16px; margin-top:32px; flex-wrap:wrap; }
+    .party-images { position:relative; }
+    .party-img-main-wrap { border-radius:16px; overflow:hidden; box-shadow:var(--shadow); }
+    .party-img-main { width:100%; height:480px; object-fit:cover; display:block; }
+    .party-highlights { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px; }
+    .party-highlight-card {
+      background:var(--white); border-radius:14px; padding:20px 16px; text-align:center;
+      box-shadow:0 4px 20px rgba(10,79,110,0.08); border:1px solid rgba(10,79,110,0.06);
+      transition:var(--transition);
+    }
+    .party-highlight-card:hover { transform:translateY(-4px); box-shadow:var(--shadow); }
+    .party-highlight-card i { font-size:1.5rem; color:var(--sunset); display:block; margin-bottom:8px; }
+    .party-highlight-card strong { display:block; font-size:1.1rem; color:var(--ocean); font-family:var(--font-display); font-weight:700; }
+    .party-highlight-card span { font-size:0.75rem; color:var(--text-light); }
+
+    /* ══════════════════════════════════════════════════
        RESERVATION
     ══════════════════════════════════════════════════ */
     #reservation { padding:100px 0; background:var(--white); }
@@ -782,6 +806,11 @@
       .specialties-grid { grid-template-columns:1fr; }
 
       .gallery-masonry { columns:2; }
+      .party-grid { grid-template-columns:1fr; gap:48px; }
+      .party-features { grid-template-columns:1fr; }
+      .party-img-main { height:300px; }
+      .party-highlights { grid-template-columns:repeat(3,1fr); }
+      .party-cta { flex-direction:column; }
       .reservation-inner { grid-template-columns:1fr; }
       .contact-grid { grid-template-columns:1fr; }
       .footer-grid { grid-template-columns:1fr; }
@@ -793,6 +822,7 @@
       .gallery-masonry { columns:1; }
       .hero-cta { flex-direction:column; align-items:center; }
       .about-features { grid-template-columns:1fr; }
+      .party-highlights { grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -824,6 +854,7 @@
       <li><a href="#specialties">Specialties</a></li>
       <li><a href="javascript:void(0)" onclick="openMenuModal()">Menu</a></li>
       <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#party-hall">Party Hall</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="#reservation" class="nav-reserve">Reserve Table</a></li>
     </ul>
@@ -840,6 +871,7 @@
   <a href="#specialties" onclick="closeMobile()">Specialties</a>
   <a href="javascript:void(0)" onclick="closeMobile();openMenuModal()">Menu</a>
   <a href="#gallery" onclick="closeMobile()">Gallery</a>
+  <a href="#party-hall" onclick="closeMobile()">Party Hall</a>
   <a href="#contact" onclick="closeMobile()">Contact</a>
   <a href="#reservation" onclick="closeMobile()" style="color:var(--sunset)">Reserve a Table</a>
 </div>
@@ -873,11 +905,11 @@
     <div class="about-grid">
       <div class="about-images reveal-left">
         <img class="about-img-main"
-          src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80"
-          alt="Bavarchi interior dining" loading="lazy"/>
+          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80"
+          alt="Bavarchi restaurant interior" loading="lazy"/>
         <img class="about-img-accent"
-          src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80"
-          alt="Delicious vegetarian thali" loading="lazy"/>
+          src="https://images.unsplash.com/photo-1567337710282-00832b415979?w=400&q=80"
+          alt="Pure vegetarian thali" loading="lazy"/>
         <div class="about-badge-float">
           <i class="fas fa-star" style="color:var(--sunset)"></i>
           <div>
@@ -893,13 +925,14 @@
           Nestled in the heart of the beautiful Union Territory of Diu, Bavarchi - The Indian Cuisine Restaurant is more than a restaurant — it's a culinary landmark. Born from a passion for fresh ingredients and warm hospitality, we have been welcoming families, tourists, and food lovers from across India and beyond.
         </p>
         <p class="section-subtitle" style="margin-top:14px">
-          From our aromatic paneer preparations to fragrant Indian curries, crispy Chinese starters, and refreshing beverages — every plate tells a story of love, tradition, and pure vegetarian flavour. Our warm ambiance, hygienic open kitchen, and attentive service make us the go-to pure veg dining destination in Diu.
+          From our aromatic paneer preparations to fragrant Indian curries, crispy Chinese starters, and refreshing beverages — every plate tells a story of love, tradition, and pure vegetarian flavour. Our warm ambiance, hygienic open kitchen, and attentive service make us the go-to pure veg dining destination in Diu. We also feature a grand party and event hall that can accommodate over 900 guests — perfect for weddings, receptions, and celebrations of every kind.
         </p>
         <div class="about-features">
           <div class="about-feature"><i class="fas fa-check-circle"></i> 100% Pure Vegetarian</div>
           <div class="about-feature"><i class="fas fa-check-circle"></i> Hygienic Open Kitchen</div>
           <div class="about-feature"><i class="fas fa-check-circle"></i> Warm Family Ambiance</div>
           <div class="about-feature"><i class="fas fa-check-circle"></i> Family &amp; Group Dining</div>
+          <div class="about-feature"><i class="fas fa-check-circle"></i> Grand Party Hall (900+ Guests)</div>
           <div class="about-feature"><i class="fas fa-check-circle"></i> Fresh Ingredients Daily</div>
           <div class="about-feature"><i class="fas fa-check-circle"></i> Tandoor &amp; Live Roti</div>
         </div>
@@ -946,30 +979,30 @@
         </div>
       </div>
       <div class="specialty-card reveal">
-        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&q=80" alt="Fast Food" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=700&q=80" alt="Indian Snacks" loading="lazy"/>
         <div class="specialty-card-overlay"></div>
         <div class="specialty-card-content">
-          <div class="specialty-icon"><i class="fas fa-hamburger"></i></div>
-          <div class="specialty-title">Fast Food</div>
-          <div class="specialty-desc">Crispy burgers, loaded fries &amp; quick bites</div>
+          <div class="specialty-icon"><i class="fas fa-cookie-bite"></i></div>
+          <div class="specialty-title">Snacks &amp; Starters</div>
+          <div class="specialty-desc">Crispy samosas, pakoras &amp; quick bites</div>
         </div>
       </div>
       <div class="specialty-card reveal">
-        <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=700&q=80" alt="Beverages & Mocktails" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1587735243615-c03f25aaff15?w=700&q=80" alt="Beverages & Mocktails" loading="lazy"/>
         <div class="specialty-card-overlay"></div>
         <div class="specialty-card-content">
           <div class="specialty-icon"><i class="fas fa-glass-martini-alt"></i></div>
           <div class="specialty-title">Beverages &amp; Mocktails</div>
-          <div class="specialty-desc">Fresh juices, mocktails &amp; cold brews</div>
+          <div class="specialty-desc">Fresh lassi, juices, mocktails &amp; cold coffee</div>
         </div>
       </div>
       <div class="specialty-card reveal">
-        <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=700&q=80" alt="Desserts" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1567337710282-00832b415979?w=700&q=80" alt="Desserts" loading="lazy"/>
         <div class="specialty-card-overlay"></div>
         <div class="specialty-card-content">
           <div class="specialty-icon"><i class="fas fa-ice-cream"></i></div>
           <div class="specialty-title">Desserts</div>
-          <div class="specialty-desc">Sweet endings — cakes, ice creams &amp; more</div>
+          <div class="specialty-desc">Gulab jamun, ice creams &amp; Indian sweets</div>
         </div>
       </div>
     </div>
@@ -988,7 +1021,7 @@
     </div>
     <div class="gallery-masonry">
       <div class="gallery-item reveal" onclick="openLightbox(this)">
-        <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=80" alt="Malai Kofta" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=80" alt="Paneer Butter Masala" loading="lazy"/>
         <div class="gallery-item-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
       <div class="gallery-item reveal" onclick="openLightbox(this)">
@@ -996,7 +1029,7 @@
         <div class="gallery-item-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
       <div class="gallery-item reveal" onclick="openLightbox(this)">
-        <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&q=80" alt="Gujarati Thali" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1567337710282-00832b415979?w=600&q=80" alt="Gujarati Thali" loading="lazy"/>
         <div class="gallery-item-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
       <div class="gallery-item reveal" onclick="openLightbox(this)">
@@ -1004,23 +1037,23 @@
         <div class="gallery-item-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
       <div class="gallery-item reveal" onclick="openLightbox(this)">
-        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80" alt="Dal Tadka" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80" alt="Samosa &amp; Chutney" loading="lazy"/>
         <div class="gallery-item-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
       <div class="gallery-item reveal" onclick="openLightbox(this)">
-        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80" alt="Tandoori Roti" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80" alt="Veg Curry &amp; Rice" loading="lazy"/>
         <div class="gallery-item-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
       <div class="gallery-item reveal" onclick="openLightbox(this)">
-        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80" alt="Chole Bhature" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=600&q=80" alt="Chole Bhature" loading="lazy"/>
         <div class="gallery-item-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
       <div class="gallery-item reveal" onclick="openLightbox(this)">
-        <img src="https://images.unsplash.com/photo-1574484284002-95260e0a4a72?w=600&q=80" alt="Paneer Butter Masala" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80" alt="Veg Curry with Naan" loading="lazy"/>
         <div class="gallery-item-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
       <div class="gallery-item reveal" onclick="openLightbox(this)">
-        <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80" alt="Gulab Jamun" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1587735243615-c03f25aaff15?w=600&q=80" alt="Mango Lassi" loading="lazy"/>
         <div class="gallery-item-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
     </div>
@@ -1032,6 +1065,60 @@
   <button id="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
   <img id="lightbox-img" src="" alt="Gallery image"/>
 </div>
+
+<!-- ─── PARTY & EVENTS ───────────────────────────────── -->
+<section id="party-hall">
+  <div class="container">
+    <div class="party-grid">
+      <div class="party-content reveal-left">
+        <span class="section-tag"><i class="fas fa-glass-cheers"></i> &nbsp;Grand Celebrations</span>
+        <h2 class="section-title">Party &amp; Event Hall<br>for 900+ Guests</h2>
+        <p class="section-subtitle">
+          Planning a grand celebration? Bavarchi offers one of the largest pure vegetarian party halls in Diu, capable of hosting over 900 guests. Whether it is a wedding reception, engagement ceremony, birthday bash, corporate event, or a festive gathering — our spacious and elegant hall is the perfect venue for your special occasion.
+        </p>
+        <p class="section-subtitle" style="margin-top:14px">
+          Our dedicated events team ensures every detail is taken care of — from customized pure veg menus crafted by our expert chefs to elegant decor, professional sound systems, and seamless service. With ample parking, hygienic kitchen facilities, and a warm ambiance, your guests will leave with unforgettable memories.
+        </p>
+        <div class="party-features">
+          <div class="party-feature"><i class="fas fa-users"></i> Capacity: 900+ Guests</div>
+          <div class="party-feature"><i class="fas fa-seedling"></i> 100% Pure Veg Catering</div>
+          <div class="party-feature"><i class="fas fa-music"></i> Sound &amp; DJ Setup</div>
+          <div class="party-feature"><i class="fas fa-parking"></i> Ample Parking Space</div>
+          <div class="party-feature"><i class="fas fa-utensils"></i> Customizable Menu</div>
+          <div class="party-feature"><i class="fas fa-paint-brush"></i> Decoration Services</div>
+          <div class="party-feature"><i class="fas fa-snowflake"></i> Air-Conditioned Hall</div>
+          <div class="party-feature"><i class="fas fa-broom"></i> Dedicated Staff &amp; Service</div>
+        </div>
+        <div class="party-cta">
+          <a href="https://wa.me/917574033599?text=Hi%20Bavarchi!%20I%27m%20interested%20in%20booking%20your%20party%20hall%20for%20an%20event.%20Please%20share%20details." class="btn btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Book Event on WhatsApp</a>
+          <a href="#reservation" class="btn btn-ocean"><i class="fas fa-calendar-check"></i> Reserve Now</a>
+        </div>
+      </div>
+      <div class="party-images reveal-right">
+        <div class="party-img-main-wrap">
+          <img class="party-img-main" src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=700&q=80" alt="Grand party hall event" loading="lazy"/>
+        </div>
+        <div class="party-highlights">
+          <div class="party-highlight-card">
+            <i class="fas fa-users"></i>
+            <strong>900+</strong>
+            <span>Guests</span>
+          </div>
+          <div class="party-highlight-card">
+            <i class="fas fa-leaf"></i>
+            <strong>Pure Veg</strong>
+            <span>Catering</span>
+          </div>
+          <div class="party-highlight-card">
+            <i class="fas fa-heart"></i>
+            <strong>Weddings</strong>
+            <span>&amp; Events</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 
@@ -1207,7 +1294,7 @@
           <li><a href="#specialties">Specialties</a></li>
           <li><a href="javascript:void(0)" onclick="openMenuModal()">Our Menu</a></li>
           <li><a href="#gallery">Gallery</a></li>
-
+          <li><a href="#party-hall">Party Hall</a></li>
           <li><a href="#reservation">Reserve a Table</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
