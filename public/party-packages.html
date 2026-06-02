@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Bavarchi Party Packages – Perfect catering packages for Weddings, Birthdays, Corporate Events, Anniversaries & Family Functions in Diu. Pure Vegetarian."/>
+  <meta name="keywords" content="Bavarchi party packages Diu, wedding catering Diu, birthday party Diu, corporate lunch Diu, pure veg catering Diu, party menu Diu"/>
+  <title>Party Packages | Bavarchi - The Indian Cuisine Restaurant, Diu</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet"/>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<style>
+    /* ─── CSS Variables (matching main site) ──────────── */
+    :root {
+      --ocean:       #0a4f6e;
+      --ocean-mid:   #1a7a9c;
+      --ocean-light: #4ab4d8;
+      --sand:        #f0e8d5;
+      --sand-dark:   #d9c9a8;
+      --sunset:      #e07b39;
+      --sunset-warm: #f4a35a;
+      --coral:       #d95f3b;
+      --white:       #ffffff;
+      --off-white:   #faf8f4;
+      --dark:        #1a1a2e;
+      --text:        #3a3a3a;
+      --text-light:  #6b6b6b;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body:    'DM Sans', sans-serif;
+      --radius:       12px;
+      --shadow:       0 8px 40px rgba(10,79,110,0.12);
+      --transition:   0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ─── Pure Veg Symbol ─────────────────────────────── */
+    .veg-symbol {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:22px; height:22px; border:2px solid #2e7d32; border-radius:4px;
+      background:transparent; position:relative; flex-shrink:0;
+    }
+    .veg-symbol::after {
+      content:''; width:10px; height:10px; border-radius:50%;
+      background:#2e7d32; position:absolute;
+    }
+    .veg-symbol.white { border-color:#4caf50; }
+    .veg-symbol.white::after { background:#4caf50; }
+
+    /* ─── Reset ──────────────────────────────────────── */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--text); background: var(--off-white); overflow-x:hidden; }
+    img { max-width:100%; display:block; }
+    a { text-decoration:none; color:inherit; }
+    ul { list-style:none; }
+
+    /* ─── Scrollbar ──────────────────────────────────── */
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background: var(--sand); }
+    ::-webkit-scrollbar-thumb { background: var(--ocean-mid); border-radius:10px; }
+
+    /* ─── Utility ────────────────────────────────────── */
+    .container { max-width:1180px; margin:0 auto; padding:0 24px; }
+    .section-tag { display:inline-block; font-family:var(--font-body); font-size:0.72rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--sunset); margin-bottom:12px; }
+    .section-title { font-family:var(--font-display); font-size:clamp(2rem,4vw,3rem); font-weight:600; color:var(--ocean); line-height:1.15; }
+    .section-subtitle { font-size:1rem; color:var(--text-light); margin-top:14px; max-width:560px; line-height:1.7; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:14px 30px; border-radius:50px; font-family:var(--font-body); font-size:0.92rem; font-weight:600; cursor:pointer; transition:var(--transition); border:none; }
+    .btn-primary { background:var(--sunset); color:var(--white); }
+    .btn-primary:hover { background:var(--coral); transform:translateY(-2px); box-shadow:0 10px 30px rgba(224,123,57,0.4); }
+    .btn-ocean { background:var(--ocean); color:var(--white); }
+    .btn-ocean:hover { background:var(--ocean-mid); transform:translateY(-2px); box-shadow:0 10px 30px rgba(10,79,110,0.3); }
+    .btn-whatsapp { background:#25D366; color:var(--white); }
+    .btn-whatsapp:hover { background:#1da851; transform:translateY(-2px); box-shadow:0 10px 30px rgba(37,211,102,0.4); }
+
+    /* ─── Fade-in on Scroll ───────────────────────────── */
+    .reveal { opacity:0; transform:translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* ══════════════════════════════════════════════════
+       NAVBAR
+    ══════════════════════════════════════════════════ */
+    #navbar {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:20px 0;
+      transition:background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+    }
+    #navbar.scrolled {
+      background:rgba(255,255,255,0.97);
+      padding:12px 0;
+      box-shadow:0 4px 30px rgba(10,79,110,0.1);
+      backdrop-filter:blur(10px);
+    }
+    #navbar .nav-inner { display:flex; align-items:center; justify-content:space-between; }
+    .nav-logo { display:flex; flex-direction:column; cursor:pointer; }
+    .nav-logo-name {
+      font-family:var(--font-display);
+      font-size:1.45rem;
+      font-weight:700;
+      color:var(--white);
+      transition:color 0.4s;
+      line-height:1.1;
+    }
+    .nav-logo-sub { font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.7); transition:color 0.4s; }
+    #navbar.scrolled .nav-logo-name { color:var(--ocean); }
+    #navbar.scrolled .nav-logo-sub { color:var(--text-light); }
+
+    .nav-links { display:flex; align-items:center; gap:32px; }
+    .nav-links a {
+      font-size:0.875rem; font-weight:500; color:rgba(255,255,255,0.9);
+      transition:color 0.3s; position:relative; padding-bottom:3px;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:0; left:0; width:0; height:2px;
+      background:var(--sunset); transition:width 0.3s;
+    }
+    .nav-links a:hover::after { width:100%; }
+    .nav-links a:hover { color:var(--white); }
+    #navbar.scrolled .nav-links a { color:var(--text); }
+    #navbar.scrolled .nav-links a:hover { color:var(--ocean); }
+    .nav-links a.active { color:var(--sunset) !important; }
+    .nav-links a.active::after { width:100% !important; }
+    #navbar.scrolled .nav-links a.active { color:var(--sunset) !important; }
+
+    .nav-reserve { background:var(--sunset); color:var(--white) !important; padding:10px 22px; border-radius:50px; font-weight:600 !important; }
+    .nav-reserve:hover { background:var(--coral) !important; }
+    .nav-reserve::after { display:none !important; }
+
+    .nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+    .nav-hamburger span { display:block; width:24px; height:2px; background:var(--white); transition:var(--transition); border-radius:2px; }
+    #navbar.scrolled .nav-hamburger span { background:var(--ocean); }
+    .nav-hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+    .nav-hamburger.open span:nth-child(2) { opacity:0; }
+    .nav-hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+
+    .mobile-menu {
+      display:none; position:fixed; inset:0; background:var(--white);
+      z-index:999; flex-direction:column; align-items:center; justify-content:center; gap:36px;
+    }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { font-family:var(--font-display); font-size:2rem; font-weight:600; color:var(--ocean); }
+    .mobile-menu a:hover { color:var(--sunset); }
+    .mobile-menu a.active-mobile { color:var(--sunset); }
+    .mobile-menu-close { position:absolute; top:24px; right:24px; font-size:1.5rem; background:none; border:none; cursor:pointer; color:var(--ocean); }
+
+    /* ══════════════════════════════════════════════════
+       PAGE HERO BANNER
+    ══════════════════════════════════════════════════ */
+    .page-hero {
+      position:relative;
+      padding:160px 0 80px;
+      background:
+        linear-gradient(160deg, rgba(10,79,110,0.88) 0%, rgba(26,26,46,0.75) 50%, rgba(224,123,57,0.55) 100%),
+        url('https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=1800&q=80') center/cover no-repeat;
+      text-align:center;
+      overflow:hidden;
+    }
+    .page-hero::after {
+      content:'';
+      position:absolute; bottom:0; left:0; right:0;
+      height:80px;
+      background:linear-gradient(to bottom, transparent, var(--off-white));
+    }
+    .page-hero-content { position:relative; z-index:2; }
+    .page-hero .section-tag { color:var(--sunset-warm); font-size:0.8rem; }
+    .page-hero .section-title { color:var(--white); font-size:clamp(2.2rem,5vw,3.5rem); }
+    .page-hero .section-subtitle { color:rgba(255,255,255,0.8); margin:16px auto 0; max-width:680px; font-size:1.05rem; }
+    .page-hero .veg-badge {
+      display:inline-flex; align-items:center; gap:6px;
+      background:rgba(255,255,255,0.12); border:1px solid rgba(76,175,80,0.4);
+      border-radius:50px; padding:6px 16px; font-size:0.75rem;
+      font-weight:700; color:#81c784; letter-spacing:0.06em; margin-top:20px;
+    }
+
+    /* ══════════════════════════════════════════════════
+       PACKAGES SECTION
+    ══════════════════════════════════════════════════ */
+    #packages { padding:80px 0 100px; background:var(--off-white); }
+    .packages-header { text-align:center; margin-bottom:60px; }
+    .packages-header .section-subtitle { margin:0 auto; }
+
+    .packages-grid {
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:32px;
+    }
+
+    /* ─── Package Card ─────────────────────────────── */
+    .package-card {
+      background:var(--white);
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid rgba(10,79,110,0.08);
+      transition:var(--transition);
+      position:relative;
+    }
+    .package-card:hover {
+      transform:translateY(-6px);
+      box-shadow:0 20px 60px rgba(10,79,110,0.15);
+    }
+
+    .package-card-header {
+      padding:32px 32px 24px;
+      position:relative;
+      overflow:hidden;
+    }
+    .package-card-header::before {
+      content:'';
+      position:absolute; top:0; left:0; right:0; bottom:0;
+      opacity:0.04;
+      background:repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        var(--ocean) 10px,
+        var(--ocean) 11px
+      );
+    }
+
+    .package-badge {
+      display:inline-block;
+      padding:5px 14px;
+      border-radius:50px;
+      font-size:0.7rem;
+      font-weight:700;
+      letter-spacing:0.1em;
+      text-transform:uppercase;
+      margin-bottom:16px;
+      position:relative;
+      z-index:1;
+    }
+    .package-badge.badge-starters { background:rgba(10,79,110,0.1); color:var(--ocean); }
+    .package-badge.badge-classic { background:rgba(224,123,57,0.12); color:var(--sunset); }
+    .package-badge.badge-premium { background:rgba(106,27,154,0.1); color:#6a1b9a; }
+    .package-badge.badge-royal { background:rgba(217,95,59,0.1); color:var(--coral); }
+
+    .package-name {
+      font-family:var(--font-display);
+      font-size:1.6rem;
+      font-weight:700;
+      color:var(--ocean);
+      position:relative;
+      z-index:1;
+    }
+
+    .package-price-row {
+      display:flex;
+      align-items:baseline;
+      gap:8px;
+      margin-top:12px;
+      position:relative;
+      z-index:1;
+    }
+    .package-price {
+      font-family:var(--font-display);
+      font-size:2.4rem;
+      font-weight:700;
+      color:var(--coral);
+      line-height:1;
+    }
+    .package-price-gst {
+      font-size:0.85rem;
+      color:var(--text-light);
+      font-weight:500;
+    }
+    .package-min {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-top:8px;
+      font-size:0.8rem;
+      color:var(--ocean-mid);
+      font-weight:600;
+      position:relative;
+      z-index:1;
+    }
+    .package-min i { font-size:0.75rem; }
+
+    .package-divider {
+      height:1px;
+      background:linear-gradient(to right, transparent, rgba(10,79,110,0.12), transparent);
+      margin:0 32px;
+    }
+
+    .package-body {
+      padding:24px 32px 28px;
+    }
+    .package-items-title {
+      font-size:0.72rem;
+      font-weight:600;
+      letter-spacing:0.15em;
+      text-transform:uppercase;
+      color:var(--text-light);
+      margin-bottom:16px;
+    }
+    .package-items {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px 20px;
+    }
+    .package-item {
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      font-size:0.88rem;
+      color:var(--text);
+      line-height:1.5;
+    }
+    .package-item i {
+      color:var(--ocean-mid);
+      font-size:0.65rem;
+      margin-top:6px;
+      flex-shrink:0;
+    }
+
+    .package-footer {
+      padding:0 32px 28px;
+    }
+    .btn-book-whatsapp {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      width:100%;
+      padding:14px 24px;
+      border-radius:50px;
+      border:none;
+      font-family:var(--font-body);
+      font-size:0.92rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:var(--transition);
+      background:#25D366;
+      color:var(--white);
+    }
+    .btn-book-whatsapp:hover {
+      background:#1da851;
+      transform:translateY(-2px);
+      box-shadow:0 10px 30px rgba(37,211,102,0.4);
+    }
+    .btn-book-whatsapp i { font-size:1.15rem; }
+
+    /* ─── Popular ribbon ──────────────────────────── */
+    .popular-ribbon {
+      position:absolute;
+      top:20px;
+      right:-32px;
+      background:var(--sunset);
+      color:var(--white);
+      padding:6px 40px;
+      font-size:0.68rem;
+      font-weight:700;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      transform:rotate(45deg);
+      box-shadow:0 2px 8px rgba(224,123,57,0.3);
+      z-index:5;
+    }
+
+    /* ─── Comparison Table ─────────────────────────── */
+    .comparison-section {
+      padding:60px 0 80px;
+      background:var(--white);
+    }
+    .comparison-header { text-align:center; margin-bottom:40px; }
+    .comparison-header .section-subtitle { margin:0 auto; }
+
+    .comparison-table-wrap {
+      overflow-x:auto;
+      border-radius:16px;
+      border:1px solid rgba(10,79,110,0.08);
+      box-shadow:var(--shadow);
+    }
+    .comparison-table {
+      width:100%;
+      border-collapse:collapse;
+      font-size:0.88rem;
+      min-width:700px;
+    }
+    .comparison-table thead th {
+      background:linear-gradient(135deg, var(--ocean) 0%, var(--ocean-mid) 100%);
+      color:var(--white);
+      padding:16px 18px;
+      font-weight:600;
+      text-align:center;
+      font-size:0.85rem;
+      white-space:nowrap;
+    }
+    .comparison-table thead th:first-child {
+      text-align:left;
+      border-radius:16px 0 0 0;
+    }
+    .comparison-table thead th:last-child {
+      border-radius:0 16px 0 0;
+    }
+    .comparison-table thead th .th-price {
+      display:block;
+      font-size:1.15rem;
+      font-weight:700;
+      margin-top:4px;
+    }
+    .comparison-table thead th .th-gst {
+      font-size:0.7rem;
+      opacity:0.7;
+      font-weight:400;
+    }
+    .comparison-table tbody td {
+      padding:13px 18px;
+      border-bottom:1px solid rgba(10,79,110,0.06);
+      text-align:center;
+      color:var(--text);
+    }
+    .comparison-table tbody td:first-child {
+      text-align:left;
+      font-weight:500;
+      color:var(--ocean);
+    }
+    .comparison-table tbody tr:last-child td {
+      border-bottom:none;
+    }
+    .comparison-table tbody tr:hover {
+      background:rgba(74,180,216,0.04);
+    }
+    .check-yes { color:#2e7d32; font-size:1rem; }
+    .check-no { color:#ccc; font-size:1rem; }
+
+    /* ─── GST & Notes Section ──────────────────────── */
+    .notes-section {
+      padding:0 0 80px;
+      background:var(--white);
+    }
+    .notes-card {
+      max-width:800px;
+      margin:0 auto;
+      background:var(--off-white);
+      border-radius:16px;
+      padding:32px 36px;
+      border:1px solid rgba(10,79,110,0.08);
+    }
+    .notes-card h3 {
+      font-family:var(--font-display);
+      font-size:1.3rem;
+      font-weight:700;
+      color:var(--ocean);
+      margin-bottom:16px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .notes-card h3 i { color:var(--sunset); }
+    .notes-list {
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .note-item {
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      font-size:0.9rem;
+      color:var(--text);
+      line-height:1.6;
+    }
+    .note-item i {
+      color:var(--sunset);
+      margin-top:4px;
+      flex-shrink:0;
+      font-size:0.8rem;
+    }
+
+    /* ══════════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════════ */
+    #footer {
+      background:var(--dark); padding:72px 0 0;
+    }
+    .footer-grid { display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:48px; padding-bottom:48px; }
+    .footer-brand-name {
+      font-family:var(--font-display); font-size:1.6rem; font-weight:700; color:var(--white);
+      line-height:1.1;
+    }
+    .footer-brand-sub { font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.4); }
+    .footer-brand p { font-size:0.88rem; color:rgba(255,255,255,0.5); line-height:1.7; margin-top:16px; }
+    .footer-social { display:flex; gap:12px; margin-top:24px; }
+    .footer-social a {
+      width:38px; height:38px; border-radius:10px;
+      background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.6);
+      display:flex; align-items:center; justify-content:center; font-size:0.95rem;
+      transition:var(--transition); border:1px solid rgba(255,255,255,0.08);
+    }
+    .footer-social a:hover { background:var(--sunset); color:var(--white); border-color:transparent; transform:translateY(-3px); }
+    .footer-col h4 { font-size:0.8rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:20px; }
+    .footer-col ul { display:flex; flex-direction:column; gap:12px; }
+    .footer-col ul li a { font-size:0.88rem; color:rgba(255,255,255,0.6); transition:color 0.3s; }
+    .footer-col ul li a:hover { color:var(--white); }
+    .footer-hours { display:flex; flex-direction:column; gap:10px; }
+    .footer-hour-row { display:flex; justify-content:space-between; align-items:center; font-size:0.83rem; color:rgba(255,255,255,0.6); }
+    .footer-hour-row strong { color:rgba(255,255,255,0.85); }
+
+    .footer-bottom {
+      border-top:1px solid rgba(255,255,255,0.06);
+      padding:20px 0; display:flex; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; gap:12px;
+    }
+    .footer-bottom p { font-size:0.8rem; color:rgba(255,255,255,0.35); }
+    .footer-bottom a { color:rgba(255,255,255,0.5); }
+    .footer-bottom a:hover { color:var(--white); }
+
+    /* ══════════════════════════════════════════════════
+       FLOATING ELEMENTS
+    ══════════════════════════════════════════════════ */
+    #whatsapp-btn {
+      position:fixed; bottom:88px; right:24px; z-index:900;
+      width:56px; height:56px; border-radius:50%;
+      background:#25D366; color:var(--white);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.5rem; box-shadow:0 4px 20px rgba(37,211,102,0.45);
+      transition:var(--transition);
+      animation:pulse 2s ease-in-out infinite;
+    }
+    #whatsapp-btn:hover { transform:scale(1.1); box-shadow:0 6px 30px rgba(37,211,102,0.6); }
+    @keyframes pulse {
+      0%,100% { box-shadow:0 4px 20px rgba(37,211,102,0.45); }
+      50% { box-shadow:0 4px 30px rgba(37,211,102,0.7), 0 0 0 8px rgba(37,211,102,0.1); }
+    }
+
+    #scroll-top {
+      position:fixed; bottom:24px; right:24px; z-index:900;
+      width:44px; height:44px; border-radius:50%;
+      background:var(--ocean); color:var(--white);
+      display:none; align-items:center; justify-content:center;
+      font-size:1rem; cursor:pointer; border:none;
+      box-shadow:0 4px 16px rgba(10,79,110,0.35);
+      transition:var(--transition);
+    }
+    #scroll-top.visible { display:flex; }
+    #scroll-top:hover { background:var(--ocean-mid); transform:translateY(-3px); }
+
+    /* ══════════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════════ */
+    @media (max-width:1024px) {
+      .footer-grid { grid-template-columns:1fr 1fr; gap:36px; }
+    }
+    @media (max-width:768px) {
+      .nav-links { display:none; }
+      .nav-hamburger { display:flex; }
+      .packages-grid { grid-template-columns:1fr; }
+      .package-items { grid-template-columns:1fr; }
+      .footer-grid { grid-template-columns:1fr; }
+      .footer-bottom { flex-direction:column; text-align:center; }
+      .page-hero { padding:140px 0 60px; }
+      .package-card-header { padding:24px 24px 20px; }
+      .package-body { padding:20px 24px 24px; }
+      .package-footer { padding:0 24px 24px; }
+      .package-divider { margin:0 24px; }
+      .notes-card { padding:24px 20px; }
+    }
+    @media (max-width:480px) {
+      .package-price { font-size:2rem; }
+      .package-name { font-size:1.35rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ────────────────────────────────────────── -->
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="nav-logo-name">Bavarchi <span class="veg-symbol white" style="vertical-align:middle;margin-left:4px;width:18px;height:18px;"></span></span>
+      <span class="nav-logo-sub">The Indian Cuisine Restaurant · Diu · Pure Veg</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#specialties">Specialties</a></li>
+      <li><a href="/#gallery">Gallery</a></li>
+      <li><a href="/party-packages" class="active">Party Packages</a></li>
+      <li><a href="/#contact">Contact</a></li>
+      <li><a href="/#reservation" class="nav-reserve">Reserve Table</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="mobileClose"><i class="fas fa-times"></i></button>
+  <a href="/">Home</a>
+  <a href="/#about">About</a>
+  <a href="/#specialties">Specialties</a>
+  <a href="/#gallery">Gallery</a>
+  <a href="/party-packages" class="active-mobile">Party Packages</a>
+  <a href="/#contact">Contact</a>
+  <a href="/#reservation" style="color:var(--sunset)">Reserve a Table</a>
+</div>
+
+<!-- ─── PAGE HERO ──────────────────────────────────────── -->
+<section class="page-hero">
+  <div class="container page-hero-content">
+    <span class="section-tag"><i class="fas fa-glass-cheers"></i> &nbsp;Celebrate With Us</span>
+    <h1 class="section-title">Party Packages</h1>
+    <p class="section-subtitle">Perfect Packages for Weddings, Birthdays, Corporate Events, Corporate Lunches, Anniversaries & Family Functions</p>
+    <div class="veg-badge"><span class="veg-symbol white" style="width:16px;height:16px;"></span> 100% Pure Vegetarian</div>
+  </div>
+</section>
+
+<!-- ─── PACKAGES ────────────────────────────────────────── -->
+<section id="packages">
+  <div class="container">
+    <div class="packages-header reveal">
+      <span class="section-tag"><i class="fas fa-utensils"></i> &nbsp;Choose Your Package</span>
+      <h2 class="section-title">Four Curated Packages</h2>
+      <p class="section-subtitle">From intimate gatherings to grand celebrations, we have the perfect pure vegetarian spread for every occasion.</p>
+    </div>
+
+    <div class="packages-grid">
+
+      <!-- PACKAGE 1 -->
+      <div class="package-card reveal">
+        <div class="package-card-header">
+          <span class="package-badge badge-starters"><i class="fas fa-seedling"></i> Starter</span>
+          <h3 class="package-name">Package 1</h3>
+          <div class="package-price-row">
+            <span class="package-price">&#8377;375</span>
+            <span class="package-price-gst">+ GST Per Person</span>
+          </div>
+          <div class="package-min"><i class="fas fa-users"></i> Minimum 50 Guests</div>
+        </div>
+        <div class="package-divider"></div>
+        <div class="package-body">
+          <div class="package-items-title">What's Included</div>
+          <div class="package-items">
+            <div class="package-item"><i class="fas fa-circle"></i> One Welcome Drink / One Mocktail</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Soup</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Veg Starter</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Roasted Papad</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Green Salad</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Butter Milk</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Onion / Pickle</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Paneer Sabji</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Veg Sabji</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Butter Roti / Naan</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Dal Fry / Dal Tadka</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Jeera Rice</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Sweet (Gulab Jamun)</div>
+          </div>
+        </div>
+        <div class="package-footer">
+          <button class="btn-book-whatsapp" onclick="bookOnWhatsApp('Package 1', 375)">
+            <i class="fab fa-whatsapp"></i> Book on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- PACKAGE 2 -->
+      <div class="package-card reveal">
+        <div class="package-card-header">
+          <span class="package-badge badge-classic"><i class="fas fa-star"></i> Classic</span>
+          <h3 class="package-name">Package 2</h3>
+          <div class="package-price-row">
+            <span class="package-price">&#8377;425</span>
+            <span class="package-price-gst">+ GST Per Person</span>
+          </div>
+          <div class="package-min"><i class="fas fa-users"></i> Minimum 50 Guests</div>
+        </div>
+        <div class="package-divider"></div>
+        <div class="package-body">
+          <div class="package-items-title">What's Included</div>
+          <div class="package-items">
+            <div class="package-item"><i class="fas fa-circle"></i> One Welcome Drink / One Mocktail</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Soup</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Veg Starter</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Roasted Papad</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Green Salad</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Onion / Pickle</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Butter Milk</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Paneer Sabji</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Veg Sabji</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Butter Roti / Naan / Paratha</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Dal Fry / Dal Tadka / Dal Makhani / Veg Raita</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Steam Rice / Jeera Rice / Biryani</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Sweet (Gulab Jamun)</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Plain Ice Cream (Limited)</div>
+          </div>
+        </div>
+        <div class="package-footer">
+          <button class="btn-book-whatsapp" onclick="bookOnWhatsApp('Package 2', 425)">
+            <i class="fab fa-whatsapp"></i> Book on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- PACKAGE 3 -->
+      <div class="package-card reveal" style="position:relative;overflow:hidden;">
+        <div class="popular-ribbon">Popular</div>
+        <div class="package-card-header">
+          <span class="package-badge badge-premium"><i class="fas fa-crown"></i> Premium</span>
+          <h3 class="package-name">Package 3</h3>
+          <div class="package-price-row">
+            <span class="package-price">&#8377;475</span>
+            <span class="package-price-gst">+ GST Per Person</span>
+          </div>
+          <div class="package-min"><i class="fas fa-users"></i> Minimum 50 Guests</div>
+        </div>
+        <div class="package-divider"></div>
+        <div class="package-body">
+          <div class="package-items-title">What's Included</div>
+          <div class="package-items">
+            <div class="package-item"><i class="fas fa-circle"></i> Welcome Drink / Two Mocktails</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Two Soups</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Two Starters (One Veg + One Chinese)</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Roasted Papad</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Green Salad</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Onion / Pickle</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Butter Milk</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Paneer Sabji</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Veg Sabji</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Butter Roti / Naan / Paratha</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Rice Pilaf / Jeera Rice / Veg Pulao / Biryani</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Dal Fry / Dal Tadka / Dal Makhani</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Two Sweets (Including Gulab Jamun)</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Ice Cream (Limited)</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Baked Dish</div>
+          </div>
+        </div>
+        <div class="package-footer">
+          <button class="btn-book-whatsapp" onclick="bookOnWhatsApp('Package 3', 475)">
+            <i class="fab fa-whatsapp"></i> Book on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- PACKAGE 4 -->
+      <div class="package-card reveal">
+        <div class="package-card-header">
+          <span class="package-badge badge-royal"><i class="fas fa-gem"></i> Royal</span>
+          <h3 class="package-name">Package 4</h3>
+          <div class="package-price-row">
+            <span class="package-price">&#8377;550</span>
+            <span class="package-price-gst">+ GST Per Person</span>
+          </div>
+          <div class="package-min"><i class="fas fa-users"></i> Minimum 50 Guests</div>
+        </div>
+        <div class="package-divider"></div>
+        <div class="package-body">
+          <div class="package-items-title">What's Included</div>
+          <div class="package-items">
+            <div class="package-item"><i class="fas fa-circle"></i> Welcome Drink / One Mocktail</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Two Soups</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Two Starters (One Chinese + One Veg)</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Roasted Papad</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Green Salad</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Butter Milk</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Onion / Pickle</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Paneer Sabji</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Veg Sabji</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Butter Roti / Naan / Tawa Paratha</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Dal Fry / Dal Tadka / Dal Makhani</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Steam Rice / Jeera Rice / Veg Pulao / Biryani</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Two Sweets</div>
+            <div class="package-item"><i class="fas fa-circle"></i> Ice Cream</div>
+            <div class="package-item"><i class="fas fa-circle"></i> One Pasta</div>
+          </div>
+        </div>
+        <div class="package-footer">
+          <button class="btn-book-whatsapp" onclick="bookOnWhatsApp('Package 4', 550)">
+            <i class="fab fa-whatsapp"></i> Book on WhatsApp
+          </button>
+        </div>
+      </div>
+
+    </div><!-- packages-grid -->
+  </div>
+</section>
+
+<!-- ─── COMPARISON TABLE ────────────────────────────────── -->
+<section class="comparison-section">
+  <div class="container">
+    <div class="comparison-header reveal">
+      <span class="section-tag"><i class="fas fa-table"></i> &nbsp;Quick Comparison</span>
+      <h2 class="section-title">Compare Packages at a Glance</h2>
+      <p class="section-subtitle">Find the perfect package that matches your event needs and budget.</p>
+    </div>
+    <div class="comparison-table-wrap reveal">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Items</th>
+            <th>Package 1<br><span class="th-price">&#8377;375</span><span class="th-gst">+ GST / Person</span></th>
+            <th>Package 2<br><span class="th-price">&#8377;425</span><span class="th-gst">+ GST / Person</span></th>
+            <th style="background:linear-gradient(135deg, var(--sunset) 0%, var(--coral) 100%);">Package 3<br><span class="th-price">&#8377;475</span><span class="th-gst">+ GST / Person</span></th>
+            <th>Package 4<br><span class="th-price">&#8377;550</span><span class="th-gst">+ GST / Person</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Welcome Drink / Mocktail</td>
+            <td>1 Drink / 1 Mocktail</td>
+            <td>1 Drink / 1 Mocktail</td>
+            <td>1 Drink / 2 Mocktails</td>
+            <td>1 Drink / 1 Mocktail</td>
+          </tr>
+          <tr>
+            <td>Soup</td>
+            <td>1</td>
+            <td>1</td>
+            <td>2</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>Starters</td>
+            <td>1 Veg</td>
+            <td>1 Veg</td>
+            <td>2 (Veg + Chinese)</td>
+            <td>2 (Chinese + Veg)</td>
+          </tr>
+          <tr>
+            <td>Roasted Papad</td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+          </tr>
+          <tr>
+            <td>Green Salad</td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+          </tr>
+          <tr>
+            <td>Butter Milk</td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+          </tr>
+          <tr>
+            <td>Onion / Pickle</td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+          </tr>
+          <tr>
+            <td>Paneer Sabji</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>Veg Sabji</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>Bread</td>
+            <td>Butter Roti / Naan</td>
+            <td>Butter Roti / Naan / Paratha</td>
+            <td>Butter Roti / Naan / Paratha</td>
+            <td>Butter Roti / Naan / Tawa Paratha</td>
+          </tr>
+          <tr>
+            <td>Dal</td>
+            <td>Dal Fry / Dal Tadka</td>
+            <td>Dal Fry / Tadka / Makhani / Veg Raita</td>
+            <td>Dal Fry / Tadka / Makhani</td>
+            <td>Dal Fry / Tadka / Makhani</td>
+          </tr>
+          <tr>
+            <td>Rice</td>
+            <td>Jeera Rice</td>
+            <td>Steam Rice / Jeera Rice / Biryani</td>
+            <td>Rice Pilaf / Jeera Rice / Veg Pulao / Biryani</td>
+            <td>Steam Rice / Jeera Rice / Veg Pulao / Biryani</td>
+          </tr>
+          <tr>
+            <td>Sweets</td>
+            <td>1 (Gulab Jamun)</td>
+            <td>1 (Gulab Jamun)</td>
+            <td>2 (incl. Gulab Jamun)</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>Ice Cream</td>
+            <td><i class="fas fa-times check-no"></i></td>
+            <td>Plain (Limited)</td>
+            <td>Limited</td>
+            <td><i class="fas fa-check check-yes"></i></td>
+          </tr>
+          <tr>
+            <td>Baked Dish</td>
+            <td><i class="fas fa-times check-no"></i></td>
+            <td><i class="fas fa-times check-no"></i></td>
+            <td><i class="fas fa-check check-yes"></i></td>
+            <td><i class="fas fa-times check-no"></i></td>
+          </tr>
+          <tr>
+            <td>Pasta</td>
+            <td><i class="fas fa-times check-no"></i></td>
+            <td><i class="fas fa-times check-no"></i></td>
+            <td><i class="fas fa-times check-no"></i></td>
+            <td>1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ─── NOTES ───────────────────────────────────────────── -->
+<section class="notes-section">
+  <div class="container">
+    <div class="notes-card reveal">
+      <h3><i class="fas fa-info-circle"></i> Important Information</h3>
+      <div class="notes-list">
+        <div class="note-item">
+          <i class="fas fa-circle"></i>
+          <span> GST will be charged extra on all package prices as applicable.</span>
+        </div>
+        <div class="note-item">
+          <i class="fas fa-circle"></i>
+          <span>Minimum 50 guests required for all party packages.</span>
+        </div>
+        <div class="note-item">
+          <i class="fas fa-circle"></i>
+          <span>Menu items may vary based on seasonal availability. Customisation is available on request.</span>
+        </div>
+        <div class="note-item">
+          <i class="fas fa-circle"></i>
+          <span>Advance booking of at least 3 days is recommended for all events.</span>
+        </div>
+        <div class="note-item">
+          <i class="fas fa-circle"></i>
+          <span>For customised packages or specific dietary requirements, please contact us directly.</span>
+        </div>
+        <div class="note-item">
+          <i class="fas fa-circle"></i>
+          <span>All packages are 100% Pure Vegetarian. Jain food options available on request.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ──────────────────────────────────────────── -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-name">Bavarchi <span class="veg-symbol" style="vertical-align:middle;margin-left:6px;width:18px;height:18px;"></span></div>
+        <div class="footer-brand-sub">The Indian Cuisine Restaurant · Diu · Pure Veg</div>
+        <p>A pure vegetarian haven for food lovers. Fresh ingredients, warm hospitality, and unforgettable flavours on the beautiful island of Diu.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://wa.me/917574033599" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" aria-label="Google"><i class="fab fa-google"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/#about">About Us</a></li>
+          <li><a href="/#specialties">Specialties</a></li>
+          <li><a href="/party-packages">Party Packages</a></li>
+          <li><a href="/#gallery">Gallery</a></li>
+          <li><a href="/#reservation">Reserve a Table</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Cuisines</h4>
+        <ul>
+          <li><a href="/">Chinese</a></li>
+          <li><a href="/">Paneer</a></li>
+          <li><a href="/">Sweet</a></li>
+          <li><a href="/">Vegetable's</a></li>
+          <li><a href="/">Dal &amp; Rice</a></li>
+          <li><a href="/">Tandoor</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Opening Hours</h4>
+        <div class="footer-hours">
+          <div class="footer-hour-row"><strong>Mon – Fri</strong><span>11 AM – 11 PM</span></div>
+          <div class="footer-hour-row"><strong>Saturday</strong><span>11 AM – 11:30 PM</span></div>
+          <div class="footer-hour-row"><strong>Sunday</strong><span>10 AM – 11:30 PM</span></div>
+          <div style="margin-top:12px;padding:10px 14px;background:rgba(255,255,255,0.06);border-radius:8px;font-size:0.8rem;color:rgba(255,255,255,0.5);">
+            <i class="fas fa-info-circle" style="color:var(--sunset-warm);margin-right:6px"></i>
+            Last order 30 min before closing
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Bavarchi - The Indian Cuisine Restaurant, Diu. All rights reserved.</p>
+      <p>Designed with <i class="fas fa-heart" style="color:var(--sunset)"></i> for the love of good food &amp; pure vegetarian living</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── FLOATING ELEMENTS ──────────────────────────────── -->
+<a href="https://wa.me/917574033599" target="_blank" rel="noopener" id="whatsapp-btn" aria-label="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<button id="scroll-top" aria-label="Scroll to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- ─── JAVASCRIPT ──────────────────────────────────────── -->
+<script>
+  // Navbar scroll behavior
+  const navbar = document.getElementById('navbar');
+  // Start scrolled since this is an inner page
+  navbar.classList.add('scrolled');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.add('scrolled'); // Always scrolled on this page since no hero behind
+    }
+  });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.add('open');
+    hamburger.classList.add('open');
+  });
+  mobileClose.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+  });
+
+  // Scroll to top
+  const scrollTop = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      scrollTop.classList.add('visible');
+    } else {
+      scrollTop.classList.remove('visible');
+    }
+  });
+  scrollTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Scroll reveal
+  const revealElements = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revealElements.forEach(el => revealObserver.observe(el));
+
+  // WhatsApp booking
+  function bookOnWhatsApp(packageName, price) {
+    const message = `Hello Bavarchi Restaurant! 🎉\n\nI'm interested in booking your *${packageName}* (₹${price} + GST per person) for an upcoming event.\n\nCould you please share more details and availability?\n\nThank you!`;
+    const encoded = encodeURIComponent(message);
+    window.open(`https://wa.me/917574033599?text=${encoded}`, '_blank');
+  }
+</script>
+
+</body>
+</html>
