@@ -599,6 +599,31 @@
       .cart-total .grand { font-size:1rem; }
     }
 
+    /* Coupon Section */
+    .coupon-section { margin-top:10px; }
+    .coupon-input-wrap { display:flex; gap:6px; }
+    .coupon-input-wrap input {
+      flex:1; padding:8px 12px; border:1.5px solid rgba(10,79,110,0.15);
+      border-radius:8px; font-size:0.82rem; font-family:inherit;
+      outline:none; transition:border-color 0.2s;
+    }
+    .coupon-input-wrap input:focus { border-color:var(--ocean); }
+    .coupon-apply-btn {
+      padding:8px 16px; border:none; border-radius:8px;
+      background:var(--ocean); color:#fff; font-size:0.8rem;
+      font-weight:600; cursor:pointer; transition:background 0.2s;
+    }
+    .coupon-apply-btn:hover { background:var(--ocean-dark); }
+    .coupon-apply-btn:disabled { opacity:0.5; cursor:default; }
+    .coupon-msg { font-size:0.75rem; margin-top:5px; min-height:1.2em; }
+    .coupon-msg.success { color:#16a34a; }
+    .coupon-msg.error { color:#dc2626; }
+    .cart-bill-row.discount-row { color:#16a34a; }
+    .coupon-remove-btn {
+      background:none; border:none; color:#dc2626; font-size:0.72rem;
+      cursor:pointer; text-decoration:underline; margin-left:4px;
+    }
+
     /* ══════════════════════════════════════════════════
        GALLERY
     ══════════════════════════════════════════════════ */
@@ -1647,8 +1672,21 @@
     </div>
     <div class="cart-drawer-footer" id="cartDrawerFooter">
       <div class="cart-bill-row"><span>Subtotal</span><span id="drawerSubtotal">₹0</span></div>
-      <div class="cart-bill-row"><span>GST (5%)</span><span id="drawerGst">₹0</span></div>
+      <div class="cart-bill-row"><span>GST (<span id="drawerGstLabel">5</span>%)</span><span id="drawerGst">₹0</span></div>
+      <div class="cart-bill-row"><span>Packaging</span><span id="drawerPkg">₹0</span></div>
+      <div class="cart-bill-row"><span>Delivery</span><span id="drawerDel">₹0</span></div>
+      <div class="cart-bill-row discount-row" id="drawerDiscountRow" style="display:none;color:#16a34a"><span><i class="fas fa-tag"></i> Coupon <span id="drawerCouponLabel"></span></span><span id="drawerDiscount">-₹0</span></div>
       <div class="cart-bill-row grand-total"><span>Total</span><span id="drawerTotal">₹0</span></div>
+
+      <!-- Coupon Section -->
+      <div class="coupon-section" id="couponSection">
+        <div class="coupon-input-wrap">
+          <input type="text" id="couponInput" placeholder="Enter coupon code" maxlength="20" />
+          <button class="coupon-apply-btn" id="couponApplyBtn" onclick="applyCoupon()">Apply</button>
+        </div>
+        <div class="coupon-msg" id="couponMsg"></div>
+      </div>
+
       <button class="order-btn" style="width:100%;justify-content:center;margin-top:14px" onclick="proceedToPayment()">
         <i class="fas fa-credit-card"></i> Proceed to Pay
       </button>
@@ -2053,6 +2091,30 @@
     updateCartDrawer();
   }
 
+  /* ── Charges & Coupon State ────────────────────────── */
+  var chargeSettings = { packaging: 20, delivery: 30, gstPercent: 5 };
+  var appliedCoupon = null; // { code, discount, type }
+
+  // Fetch settings from API
+  function fetchSettings() {
+    fetch('/api/settings')
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.success && data.settings) {
+          for (var i = 0; i < data.settings.length; i++) {
+            var s = data.settings[i];
+            if (s.key === 'packaging_charge') chargeSettings.packaging = parseInt(s.value) || 0;
+            if (s.key === 'delivery_charge') chargeSettings.delivery = parseInt(s.value) || 0;
+            if (s.key === 'gst_percent') chargeSettings.gstPercent = parseFloat(s.value) || 5;
+          }
+          updateCartDrawer();
+          updateCartBar();
+        }
+      })
+      .catch(function() {});
+  }
+  fetchSettings();
+
   function getCartTotals() {
     var subtotal = 0;
     var totalItems = 0;
@@ -2060,9 +2122,23 @@
       subtotal += cart[k].price * cart[k].qty;
       totalItems += cart[k].qty;
     }
-    var gst = Math.round(subtotal * 0.05);
-    var grand = subtotal + gst;
-    return { subtotal: subtotal, gst: gst, grand: grand, totalItems: totalItems };
+    var discount = 0;
+    if (appliedCoupon) {
+      if (appliedCoupon.type === 'PERCENT') {
+        discount = Math.round(subtotal * appliedCoupon.discount / 100);
+      } else {
+        discount = appliedCoupon.discount;
+      }
+      if (discount > subtotal) discount = subtotal;
+    }
+    var afterDiscount = subtotal - discount;
+    var gst = Math.round(afterDiscount * chargeSettings.gstPercent / 100);
+    var grand = afterDiscount + gst + chargeSettings.packaging + chargeSettings.delivery;
+    return {
+      subtotal: subtotal, discount: discount, afterDiscount: afterDiscount,
+      gst: gst, packaging: chargeSettings.packaging, delivery: chargeSettings.delivery,
+      grand: grand, totalItems: totalItems, gstPercent: chargeSettings.gstPercent
+    };
   }
 
   function updateCartBar() {
@@ -2116,7 +2192,19 @@
     }
     var t = getCartTotals();
     document.getElementById('drawerSubtotal').textContent = '₹' + t.subtotal;
+    document.getElementById('drawerGstLabel').textContent = t.gstPercent;
     document.getElementById('drawerGst').textContent = '₹' + t.gst;
+    document.getElementById('drawerPkg').textContent = '₹' + t.packaging;
+    document.getElementById('drawerDel').textContent = '₹' + t.delivery;
+    // Discount row
+    var discountRow = document.getElementById('drawerDiscountRow');
+    if (t.discount > 0) {
+      discountRow.style.display = 'flex';
+      document.getElementById('drawerCouponLabel').textContent = '(' + appliedCoupon.code + ')';
+      document.getElementById('drawerDiscount').textContent = '-₹' + t.discount;
+    } else {
+      discountRow.style.display = 'none';
+    }
     document.getElementById('drawerTotal').textContent = '₹' + t.grand;
   }
 
@@ -2135,11 +2223,73 @@
 
   function clearCart() {
     for (var k in cart) delete cart[k];
+    appliedCoupon = null;
+    document.getElementById('couponInput').value = '';
+    document.getElementById('couponMsg').textContent = '';
+    document.getElementById('couponMsg').className = 'coupon-msg';
     // Reset all menu-item UIs
     document.querySelectorAll('.item-actions').forEach(function(el) {
       var key = el.getAttribute('data-key');
       if (key) updateCartItemUI(key, el);
     });
+    updateCartBar();
+    updateCartDrawer();
+  }
+
+  /* ── Coupon Logic ───────────────────────────────── */
+  function applyCoupon() {
+    var code = document.getElementById('couponInput').value.trim();
+    var msgEl = document.getElementById('couponMsg');
+    if (!code) {
+      msgEl.textContent = 'Please enter a coupon code';
+      msgEl.className = 'coupon-msg error';
+      return;
+    }
+    var t = getCartTotals();
+    var btn = document.getElementById('couponApplyBtn');
+    btn.disabled = true;
+    btn.textContent = 'Checking...';
+
+    fetch('/api/coupons/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: code, subtotal: t.subtotal })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      btn.disabled = false;
+      btn.textContent = 'Apply';
+      if (data.valid) {
+        appliedCoupon = data.coupon;
+        msgEl.innerHTML = 'Coupon applied! You save ₹' + '<span id="couponRemoveBtn" class="coupon-remove-btn" onclick="removeCoupon()">Remove</span>';
+        msgEl.className = 'coupon-msg success';
+        document.getElementById('couponInput').disabled = true;
+        btn.style.display = 'none';
+        updateCartBar();
+        updateCartDrawer();
+      } else {
+        appliedCoupon = null;
+        msgEl.textContent = data.error || 'Invalid coupon';
+        msgEl.className = 'coupon-msg error';
+        updateCartBar();
+        updateCartDrawer();
+      }
+    })
+    .catch(function() {
+      btn.disabled = false;
+      btn.textContent = 'Apply';
+      msgEl.textContent = 'Failed to validate coupon';
+      msgEl.className = 'coupon-msg error';
+    });
+  }
+
+  function removeCoupon() {
+    appliedCoupon = null;
+    document.getElementById('couponInput').value = '';
+    document.getElementById('couponInput').disabled = false;
+    document.getElementById('couponApplyBtn').style.display = '';
+    document.getElementById('couponMsg').textContent = '';
+    document.getElementById('couponMsg').className = 'coupon-msg';
     updateCartBar();
     updateCartDrawer();
   }
@@ -2161,8 +2311,6 @@
       items.push({ name: item.name, price: item.price, quantity: item.qty });
     }
 
-    var t = getCartTotals();
-
     // Show payment step immediately with loading state
     document.getElementById('paymentStep').classList.add('active');
     document.getElementById('upiAmount').textContent = '₹' + t.grand;
@@ -2177,7 +2325,7 @@
     fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: items })
+      body: JSON.stringify({ items: items, couponCode: appliedCoupon ? appliedCoupon.code : null })
     })
     .then(function(res) { return res.json(); })
     .then(function(data) {
@@ -2267,7 +2415,12 @@
     }
     msg += '\n───────────────\n';
     msg += '📦 Subtotal: ₹' + t.subtotal + '\n';
-    msg += '📋 GST (5%): ₹' + t.gst + '\n';
+    if (t.discount > 0) {
+      msg += '🏷️ Coupon (' + (appliedCoupon ? appliedCoupon.code : '') + '): -₹' + t.discount + '\n';
+    }
+    msg += '📋 GST (' + t.gstPercent + '%): ₹' + t.gst + '\n';
+    msg += '📦 Packaging: ₹' + t.packaging + '\n';
+    msg += '🚚 Delivery: ₹' + t.delivery + '\n';
     msg += '💰 *Total: ₹' + t.grand + '*\n';
     msg += '\n✅ UPI Payment completed. Please confirm my order. Thank you! 🙏';
     var waUrl = 'https://wa.me/918320977752?text=' + encodeURIComponent(msg);

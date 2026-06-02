@@ -53,20 +53,24 @@ model AdminToken {
 }
 
 model Order {
-  id            String       @id @default(cuid())
-  orderId       String       @unique
-  customerName  String?
-  customerPhone String?
-  subtotal      Int
-  gst           Int
-  grandTotal    Int
-  status        String       @default("PENDING")
-  paymentMethod String       @default("UPI")
+  id               String       @id @default(cuid())
+  orderId          String       @unique
+  customerName     String?
+  customerPhone    String?
+  subtotal         Int
+  gst              Int
+  packagingCharge  Int          @default(0)
+  deliveryCharge   Int          @default(0)
+  discount         Int          @default(0)
+  couponCode       String?
+  grandTotal       Int
+  status           String       @default("PENDING")
+  paymentMethod    String       @default("UPI")
   upiTransactionRef String?
-  notes         String?
-  items         OrderItem[]
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  notes            String?
+  items            OrderItem[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 }
 
 model OrderItem {
@@ -77,4 +81,27 @@ model OrderItem {
   price     Int
   quantity  Int
   total     Int
+}
+
+model RestaurantSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+  label String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Coupon {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  discount    Int
+  type        String    @default("FLAT")
+  minOrder    Int       @default(0)
+  maxUses     Int       @default(0)
+  usedCount   Int       @default(0)
+  isActive    Boolean   @default(true)
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }

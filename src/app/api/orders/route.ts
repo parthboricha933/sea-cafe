@@ -23,7 +23,7 @@ function generateOrderId(): string {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { items, customerName, customerPhone, notes } = body;
+    const { items, customerName, customerPhone, notes, couponCode } = body;
 
     // ── Validation ─────────────────────────────────────────
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -48,14 +48,55 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // ── Calculate totals ───────────────────────────────────
+    // ── Fetch settings from DB ─────────────────────────────
+    const settings = await db.restaurantSetting.findMany();
+    const settingsMap: Record<string, string> = {};
+    for (const s of settings) {
+      settingsMap[s.key] = s.value;
+    }
+
+    const packagingCharge = parseInt(settingsMap.packaging_charge || "0") || 0;
+    const deliveryCharge = parseInt(settingsMap.delivery_charge || "0") || 0;
+    const gstPercent = parseFloat(settingsMap.gst_percent || "5") || 5;
+
+    // ── Calculate subtotal ─────────────────────────────────
     const subtotal = items.reduce(
       (sum: number, item: { price: number; quantity: number }) =>
         sum + item.price * item.quantity,
       0
     );
-    const gst = Math.round(subtotal * 0.05);
-    const grandTotal = subtotal + gst;
+
+    // ── Validate and apply coupon ──────────────────────────
+    let discount = 0;
+    let appliedCouponCode: string | null = null;
+
+    if (couponCode) {
+      const coupon = await db.coupon.findUnique({
+        where: { code: couponCode.toUpperCase().trim() },
+      });
+
+      if (coupon && coupon.isActive) {
+        const isExpired = coupon.expiresAt && coupon.expiresAt < new Date();
+        const isMaxedOut = coupon.maxUses > 0 && coupon.usedCount >= coupon.maxUses;
+        const meetsMinOrder = !coupon.minOrder || subtotal >= coupon.minOrder;
+
+        if (!isExpired && !isMaxedOut && meetsMinOrder) {
+          if (coupon.type === "PERCENT") {
+            discount = Math.round(subtotal * coupon.discount / 100);
+          } else {
+            discount = coupon.discount;
+          }
+          // Discount cannot exceed subtotal
+          if (discount > subtotal) discount = subtotal;
+          appliedCouponCode = coupon.code;
+        }
+      }
+    }
+
+    // ── Calculate totals ───────────────────────────────────
+    const afterDiscount = subtotal - discount;
+    const gst = Math.round(afterDiscount * gstPercent / 100);
+    const grandTotal = afterDiscount + gst + packagingCharge + deliveryCharge;
 
     if (grandTotal <= 0) {
       return NextResponse.json(
@@ -74,6 +115,10 @@ export async function POST(request: NextRequest) {
         customerPhone: customerPhone || null,
         subtotal,
         gst,
+        packagingCharge,
+        deliveryCharge,
+        discount,
+        couponCode: appliedCouponCode,
         grandTotal,
         notes: notes || null,
         status: "PENDING",
@@ -92,12 +137,19 @@ export async function POST(request: NextRequest) {
       include: { items: true },
     });
 
+    // ── Increment coupon usage if applied ──────────────────
+    if (appliedCouponCode) {
+      await db.coupon.update({
+        where: { code: appliedCouponCode },
+        data: { usedCount: { increment: 1 } },
+      });
+    }
+
     // ── Generate UPI payment link ──────────────────────────
     const { upiId, upiPayeeName } = getUpiConfig();
-    const upiAmount = grandTotal.toFixed(2); // Prices are in rupees
+    const upiAmount = grandTotal.toFixed(2);
     const transactionNote = `Bawarchi Order ${orderId}`;
 
-    // UPI deep link format
     const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(upiPayeeName)}&am=${upiAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
 
     return NextResponse.json(
@@ -108,6 +160,10 @@ export async function POST(request: NextRequest) {
           orderId: order.orderId,
           subtotal: order.subtotal,
           gst: order.gst,
+          packagingCharge: order.packagingCharge,
+          deliveryCharge: order.deliveryCharge,
+          discount: order.discount,
+          couponCode: order.couponCode,
           grandTotal: order.grandTotal,
           status: order.status,
           items: order.items,
@@ -120,6 +176,11 @@ export async function POST(request: NextRequest) {
           amount: upiAmount,
           currency: "INR",
           transactionNote,
+        },
+        charges: {
+          packagingCharge,
+          deliveryCharge,
+          gstPercent,
         },
       },
       { status: 201 }
