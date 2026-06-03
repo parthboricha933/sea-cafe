@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+  @page {
+    size: 720px 960px;
+    margin: 0;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 720px;
+    height: 960px;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .poster {
+    width: 720px;
+    min-height: 960px;
+    background: #1a1a2e;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Decorative circles */
+  .deco-circle-1 {
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgba(224,123,57,0.08);
+  }
+  .deco-circle-2 {
+    position: absolute;
+    bottom: -60px;
+    left: -60px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(74,180,216,0.06);
+  }
+  .deco-circle-3 {
+    position: absolute;
+    top: 180px;
+    left: -40px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(224,123,57,0.05);
+  }
+
+  /* Top badge */
+  .top-bar {
+    width: 100%;
+    padding: 28px 40px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .veg-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(46,125,50,0.15);
+    border: 1px solid rgba(76,175,80,0.4);
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #81c784;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .veg-symbol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #4caf50;
+    border-radius: 3px;
+    background: transparent;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .veg-symbol::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4caf50;
+    position: absolute;
+  }
+  .open-24-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(224,123,57,0.18);
+    border: 1px solid rgba(224,123,57,0.4);
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #f4a35a;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: pulse-glow 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 rgba(224,123,57,0); }
+    50% { box-shadow: 0 0 20px rgba(224,123,57,0.3); }
+  }
+
+  /* Restaurant name */
+  .name-section {
+    text-align: center;
+    margin-top: 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .restaurant-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+  }
+  .restaurant-sub {
+    font-size: 0.82rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-top: 8px;
+  }
+
+  /* Divider */
+  .divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sunset, #e07b39), var(--sunset-warm, #f4a35a));
+    border-radius: 2px;
+    margin: 28px auto;
+  }
+
+  /* OPEN 24 HOURS banner */
+  .hours-banner {
+    background: linear-gradient(135deg, #e07b39 0%, #d95f3b 100%);
+    border-radius: 14px;
+    padding: 20px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 8px 30px rgba(224,123,57,0.3);
+  }
+  .hours-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.06em;
+  }
+  .hours-sub {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.85);
+    margin-top: 4px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* QR Section */
+  .qr-section {
+    margin-top: 36px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .qr-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #4ab4d8;
+    margin-bottom: 16px;
+  }
+  .qr-wrapper {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    display: inline-block;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  .qr-wrapper img {
+    width: 220px;
+    height: 220px;
+    display: block;
+    border-radius: 8px;
+  }
+  .scan-text {
+    margin-top: 14px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+  }
+  .url-text {
+    margin-top: 6px;
+    font-size: 0.78rem;
+    color: #4ab4d8;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  /* Address & Contact */
+  .info-section {
+    margin-top: 32px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .info-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .info-row i {
+    color: #f4a35a;
+    font-size: 0.85rem;
+    width: 20px;
+    text-align: center;
+  }
+  .info-row span {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.5;
+  }
+
+  /* Bottom bar */
+  .bottom-bar {
+    margin-top: auto;
+    padding: 24px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    width: 100%;
+  }
+  .bottom-bar p {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.08em;
+  }
+
+  /* Load fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+<div class="poster">
+  <!-- Decorative circles -->
+  <div class="deco-circle-1"></div>
+  <div class="deco-circle-2"></div>
+  <div class="deco-circle-3"></div>
+
+  <!-- Top badges -->
+  <div class="top-bar">
+    <div class="veg-badge">
+      <span class="veg-symbol"></span>
+      100% Pure Veg
+    </div>
+    <div class="open-24-badge">
+      <i class="fas fa-clock"></i>
+      Open 24 Hours
+    </div>
+  </div>
+
+  <!-- Restaurant name -->
+  <div class="name-section">
+    <h1 class="restaurant-name">Bawarchi</h1>
+    <p class="restaurant-sub">The Indian Cuisine Restaurant &middot; Diu</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Open 24 Hours banner -->
+  <div class="hours-banner">
+    <div class="hours-title">Open 24 Hours</div>
+    <div class="hours-sub">Serving Pure Veg Delights All Day &amp; Night</div>
+  </div>
+
+  <!-- QR Code -->
+  <div class="qr-section">
+    <div class="qr-label"><i class="fas fa-qrcode"></i> &nbsp;Scan to Visit</div>
+    <div class="qr-wrapper">
+      <img src="bawarchi-qr.png" alt="Scan QR Code"/>
+    </div>
+    <p class="scan-text">Scan the QR code to view our menu &amp; order online</p>
+    <p class="url-text">bawarchirestaurantdiu.com</p>
+  </div>
+
+  <!-- Address & Contact -->
+  <div class="info-section">
+    <div class="info-row">
+      <i class="fas fa-map-marker-alt"></i>
+      <span>Ground Floor, Near Mahalaxmi Temple, Vijay Chowk, Diu-362520</span>
+    </div>
+    <div class="info-row">
+      <i class="fas fa-phone"></i>
+      <span>+91 75740 33599</span>
+    </div>
+    <div class="info-row">
+      <i class="fab fa-whatsapp"></i>
+      <span>WhatsApp: +91 75740 33599</span>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="bottom-bar">
+    <p>Bawarchi - The Indian Cuisine Restaurant, Diu &middot; All Rights Reserved</p>
+  </div>
+</div>
+</body>
+</html>
