@@ -2,12 +2,35 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { verifyToken } from "@/lib/admin-auth";
 
-// GET /api/settings — Public: get all restaurant settings
+// Default settings to seed if table is empty
+const DEFAULT_SETTINGS = [
+  { key: "packaging_charge", value: "20", label: "Packaging Charge" },
+  { key: "delivery_charge", value: "30", label: "Delivery Charge" },
+  { key: "gst_percent", value: "5", label: "GST Percentage" },
+  { key: "upi_id", value: "ruchitpatel.8866-5@oksbi", label: "UPI ID" },
+];
+
+// GET /api/settings — Public: get all restaurant settings (auto-seeds defaults if empty)
 export async function GET() {
   try {
-    const settings = await db.restaurantSetting.findMany({
+    let settings = await db.restaurantSetting.findMany({
       orderBy: { label: "asc" },
     });
+
+    // Auto-seed default settings if table is empty
+    if (settings.length === 0) {
+      for (const s of DEFAULT_SETTINGS) {
+        await db.restaurantSetting.upsert({
+          where: { key: s.key },
+          update: { value: s.value, label: s.label },
+          create: { key: s.key, value: s.value, label: s.label },
+        });
+      }
+      settings = await db.restaurantSetting.findMany({
+        orderBy: { label: "asc" },
+      });
+    }
+
     return NextResponse.json({ success: true, settings });
   } catch (error: unknown) {
     console.error("[GET /api/settings] Error:", error);
