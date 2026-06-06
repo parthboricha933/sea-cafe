@@ -14,6 +14,10 @@ async function main() {
   await prisma.adminToken.deleteMany()
   await prisma.menuItem.deleteMany()
   await prisma.menuCategory.deleteMany()
+  await prisma.orderItem.deleteMany()
+  await prisma.order.deleteMany()
+  await prisma.coupon.deleteMany()
+  await prisma.restaurantSetting.deleteMany()
   await prisma.admin.deleteMany()
 
   // Create admin user
@@ -24,6 +28,32 @@ async function main() {
     },
   })
   console.log('Admin user created')
+
+  // Create default restaurant settings
+  const settings = [
+    { key: 'packaging_charge', value: '20', label: 'Packaging Charge' },
+    { key: 'delivery_charge', value: '30', label: 'Delivery Charge' },
+    { key: 'gst_percent', value: '5', label: 'GST Percentage' },
+    { key: 'upi_id', value: 'ruchitpatel.8866-5@oksbi', label: 'UPI ID' },
+  ]
+  for (const s of settings) {
+    await prisma.restaurantSetting.create({ data: s })
+  }
+  console.log('Restaurant settings created')
+
+  // Create default coupon
+  await prisma.coupon.create({
+    data: {
+      code: 'WELCOME10',
+      discount: 10,
+      type: 'PERCENT',
+      minOrder: 200,
+      maxUses: 100,
+      usedCount: 0,
+      isActive: true,
+    },
+  })
+  console.log('Default coupon created')
 
   // Create categories and items
   const categories = [
