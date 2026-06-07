@@ -24,7 +24,7 @@ async function main() {
   await prisma.admin.create({
     data: {
       username: 'admin',
-      password: hashPassword('bavarchi2025'),
+      password: hashPassword('bawarchi@2026'),
     },
   })
   console.log('Admin user created')

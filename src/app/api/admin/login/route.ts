@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // Default admin credentials to auto-seed if no admin exists
 const DEFAULT_ADMIN = {
   username: 'admin',
-  password: 'bavarchi2025',
+  password: 'bawarchi@2026',
 }
 
 async function ensureAdminExists() {

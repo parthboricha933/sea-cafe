@@ -1,9 +1,20 @@
 import { db } from '@/lib/db'
 import { NextResponse } from 'next/server'
+import crypto from 'crypto'
 
-// GET /api/seed — Auto-seed menu data if database is empty
+function hashPassword(password: string): string {
+  return crypto.createHash('sha256').update(password).digest('hex')
+}
+
+// GET /api/seed — Auto-seed menu data if database is empty + reset admin password
 export async function GET() {
   try {
+    // Always reset admin password to current default
+    await db.admin.updateMany({
+      where: { username: 'admin' },
+      data: { password: hashPassword('bawarchi@2026') },
+    })
+
     const categoryCount = await db.menuCategory.count()
 
     if (categoryCount >= 8) {
