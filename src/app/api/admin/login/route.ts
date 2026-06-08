@@ -1,4 +1,5 @@
 import { db } from '@/lib/db'
+import { ensureDatabaseInitialized } from '@/lib/db'
 import { hashPassword, verifyPassword, createToken } from '@/lib/admin-auth'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -9,20 +10,26 @@ const DEFAULT_ADMIN = {
 }
 
 async function ensureAdminExists() {
-  const adminCount = await db.admin.count()
-  if (adminCount === 0) {
-    await db.admin.create({
-      data: {
-        username: DEFAULT_ADMIN.username,
-        password: hashPassword(DEFAULT_ADMIN.password),
-      },
-    })
-    console.log('[Auto-seed] Default admin user created')
+  try {
+    const adminCount = await db.admin.count()
+    if (adminCount === 0) {
+      await db.admin.create({
+        data: {
+          username: DEFAULT_ADMIN.username,
+          password: hashPassword(DEFAULT_ADMIN.password),
+        },
+      })
+      console.log('[Auto-seed] Default admin user created')
+    }
+  } catch (error) {
+    console.error('[Auto-seed] Failed to create admin:', error)
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
+    // Ensure database tables exist
+    await ensureDatabaseInitialized()
     // Auto-seed admin if no admin exists
     await ensureAdminExists()
 

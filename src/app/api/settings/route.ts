@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { ensureDatabaseInitialized } from "@/lib/db";
 import { verifyToken } from "@/lib/admin-auth";
 
 // Default settings to seed if table is empty
@@ -13,6 +14,8 @@ const DEFAULT_SETTINGS = [
 // GET /api/settings — Public: get all restaurant settings (auto-seeds defaults if empty)
 export async function GET() {
   try {
+    await ensureDatabaseInitialized();
+
     let settings = await db.restaurantSetting.findMany({
       orderBy: { label: "asc" },
     });
@@ -34,16 +37,19 @@ export async function GET() {
     return NextResponse.json({ success: true, settings });
   } catch (error: unknown) {
     console.error("[GET /api/settings] Error:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch settings" },
-      { status: 500 }
-    );
+    // Return hardcoded defaults as fallback so the site still works
+    return NextResponse.json({
+      success: true,
+      settings: DEFAULT_SETTINGS.map(s => ({ ...s, id: "fallback", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() })),
+    });
   }
 }
 
 // PUT /api/settings — Admin: update settings
 export async function PUT(request: NextRequest) {
   try {
+    await ensureDatabaseInitialized();
+
     const authHeader = request.headers.get("authorization");
     if (!authHeader) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

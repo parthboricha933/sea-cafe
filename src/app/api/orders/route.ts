@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db, ensureDatabaseInitialized } from "@/lib/db";
 
 // Get UPI configuration with safe fallbacks
 function getUpiConfig() {
@@ -22,6 +22,8 @@ function generateOrderId(): string {
 // POST /api/orders — Create a new order and return UPI payment link
 export async function POST(request: NextRequest) {
   try {
+    await ensureDatabaseInitialized();
+
     const body = await request.json();
     const { items, customerName, customerPhone, notes, couponCode } = body;
 

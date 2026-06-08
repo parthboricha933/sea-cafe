@@ -1,4 +1,4 @@
-import { db } from '@/lib/db'
+import { db, ensureDatabaseInitialized } from '@/lib/db'
 import { NextResponse } from 'next/server'
 import crypto from 'crypto'
 
@@ -6,13 +6,16 @@ function hashPassword(password: string): string {
   return crypto.createHash('sha256').update(password).digest('hex')
 }
 
-// GET /api/seed — Auto-seed menu data if database is empty + reset admin password
+// GET /api/seed — Auto-seed menu data if database is empty
 export async function GET() {
   try {
-    // Always reset admin password to current default
-    await db.admin.updateMany({
+    await ensureDatabaseInitialized()
+
+    // Always ensure admin exists with correct password
+    await db.admin.upsert({
       where: { username: 'admin' },
-      data: { password: hashPassword('bawarchi@2026') },
+      update: { password: hashPassword('bawarchi@2026') },
+      create: { username: 'admin', password: hashPassword('bawarchi@2026') },
     })
 
     const categoryCount = await db.menuCategory.count()

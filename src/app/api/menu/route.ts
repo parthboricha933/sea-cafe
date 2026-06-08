@@ -1,8 +1,11 @@
 import { db } from '@/lib/db'
+import { ensureDatabaseInitialized } from '@/lib/db'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
+    await ensureDatabaseInitialized()
+
     const categories = await db.menuCategory.findMany({
       orderBy: { order: 'asc' },
       include: {

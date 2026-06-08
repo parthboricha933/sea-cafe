@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db, ensureDatabaseInitialized } from "@/lib/db";
 
 // GET /api/coupons/available — Public: list active, non-expired coupons
 // Returns limited info (code, discount, type, minOrder) for customer display
 export async function GET() {
   try {
+    await ensureDatabaseInitialized();
+
     const now = new Date();
 
     const allActive = await db.coupon.findMany({
